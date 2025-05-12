@@ -2,7 +2,6 @@
   base = "/"
   publish = "/out"
   command = "pnpm install --frozen-lockfile && pnpm build"
-  functions = "functions"
 
 [build.environment]
   NODE_VERSION = "18.18.0"
@@ -16,7 +15,6 @@
 
 [functions]
   node_bundler = "esbuild"
-  include_node_modules = true
 
 [functions.build]
   command = "pnpm install --frozen-lockfile"
