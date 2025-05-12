@@ -1,15 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  reactStrictMode: true,
   images: {
     domains: ['ishkkozdnhhibcxlnvgc.supabase.co'],
-  },
-  serverActions: {
-    allowedOrigins: ['*'],
-  },
-  experimental: {
-    serverActions: true,
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -22,11 +14,7 @@ const nextConfig = {
     }
     return config
   },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   distDir: '.next',
-  outDir: 'out',
   async rewrites() {
     return [
       {
@@ -34,6 +22,11 @@ const nextConfig = {
         destination: '/.netlify/functions/api/:path*',
       },
     ];
+  },
+  // Enable CSS modules and imports
+  experimental: {
+    optimizeCss: true,
+    optimizeFonts: true,
   },
 }
 

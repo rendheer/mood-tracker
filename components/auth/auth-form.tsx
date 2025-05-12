@@ -22,6 +22,14 @@ export default function AuthForm() {
   const [error, setError] = useState<string | null>(null)
   const supabase = createClient()
 
+  // Check if user is in beta test mode
+  const isUserInBetaMode = () => {
+    const cookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('beta-test-mode='))
+    return cookie ? cookie.split('=')[1] === 'true' : false
+  }
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
@@ -60,6 +68,17 @@ export default function AuthForm() {
           }
         },
       })
+
+      if (error) {
+        setError(error.message)
+        return
+      }
+
+      // If in beta test mode, redirect to dashboard
+      if (isUserInBetaMode()) {
+        router.push('/dashboard')
+        return
+      }
 
       if (error) {
         setError(error.message)

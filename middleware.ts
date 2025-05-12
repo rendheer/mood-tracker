@@ -21,8 +21,15 @@ export async function middleware(req: NextRequest) {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         maxAge: 3600, // 1 hour
+        path: '/', // Ensure cookie is accessible across the site
       })
     }
+    
+    // For beta test users, redirect to dashboard immediately
+    if (isBetaTest) {
+      return NextResponse.redirect(new URL('/dashboard', req.url))
+    }
+    
     return res
   }
   
