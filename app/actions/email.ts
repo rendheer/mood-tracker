@@ -9,9 +9,9 @@ export async function sendEmail(
 ) {
   try {
     const supabase = createClient()
-    
+
     // Send email using Supabase's email service
-    const { error } = await supabase.auth.sendEmail({
+    const { error } = await supabase.auth.admin.sendEmail({
       to,
       subject,
       html,
@@ -33,7 +33,7 @@ export async function sendEmail(
 export async function sendVerificationEmail(email: string) {
   try {
     const supabase = createClient()
-    
+
     // Send verification email using Supabase's auth service
     const { error } = await supabase.auth.signUp({
       email,
