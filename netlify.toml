@@ -1,7 +1,18 @@
 [build]
-  command = "pnpm build"
+  command = "pnpm install && pnpm build"
   publish = "out"
 
 [context.production.environment]
   NEXT_PUBLIC_SUPABASE_URL = "https://ishkkozdnhhibcxlnvgc.supabase.co"
   NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzaGtrb3pkbmhoaWJjeGxudmdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4ODA4MTIsImV4cCI6MjA2MjQ1NjgxMn0.FSEXqLrYphZ31IOHDu5xiTb4UhGQipjTE_XjbrfIW1Q"
+
+[build.environment]
+  NODE_VERSION = "18"  # Use Node.js 18 LTS
+  PNPM_VERSION = "8.10.0"  # Use a stable pnpm version
+
+[functions]
+  node_bundler = "esbuild"
+
+[functions.build]
+  command = "pnpm install"
+  publish = "functions"
