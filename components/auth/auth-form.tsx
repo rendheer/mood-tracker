@@ -135,13 +135,16 @@ export default function AuthForm() {
               <Button
                 onClick={() => {
                   // Create a temporary session for beta testing
-                  localStorage.setItem('beta-test-mode', 'true')
+                  document.cookie = 'beta-test-mode=true; path=/; max-age=3600'; // Cookie expires in 1 hour
                   window.location.href = '/dashboard'
                 }}
                 className="w-full"
               >
                 Enter Beta Test Mode
               </Button>
+              <p className="text-sm text-gray-500 mt-2">
+                This session will expire in 1 hour. You can refresh the page to extend it.
+              </p>
             </div>
           </CardContent>
         </Card>

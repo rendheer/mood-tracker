@@ -48,7 +48,12 @@ export default function DashboardClient({ user, initialMoodEntries, streakData }
   const supabase = createClient()
 
   useEffect(() => {
-    setIsBetaMode(localStorage.getItem('beta-test-mode') === 'true')
+    // Check for beta test mode cookie
+    const cookie = document.cookie
+      .split('; ')
+      .find(row => row.startsWith('beta-test-mode'))
+    setIsBetaMode(cookie ? cookie.split('=')[1] === 'true' : false)
+  }, [])
   }, [])
 
   const handleMoodSelection = async (mood: string, note?: string) => {
