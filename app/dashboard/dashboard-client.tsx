@@ -54,7 +54,6 @@ export default function DashboardClient({ user, initialMoodEntries, streakData }
       .find(row => row.startsWith('beta-test-mode'))
     setIsBetaMode(cookie ? cookie.split('=')[1] === 'true' : false)
   }, [])
-  }, [])
 
   const handleMoodSelection = async (mood: string, note?: string) => {
     if (isSubmitting) return
