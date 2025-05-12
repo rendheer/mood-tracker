@@ -1,20 +1,26 @@
 "use client"
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { useState, useEffect } from "react"
+import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Loader2 } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { AlertCircle } from "lucide-react"
 import MoodSelector from "@/components/mood-selector"
 import MoodSuggestions from "@/components/mood-suggestions"
 import MoodHistory from "@/components/mood-history"
 import MoodAnalytics from "@/components/mood-analytics"
 import MoodCorrelation from "@/components/mood-correlation"
 import UserProfile from "@/components/auth/user-profile"
-import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
 import type { User } from "@supabase/supabase-js"
 import { toast } from "@/components/ui/use-toast"
 import { Toaster } from "@/components/ui/toaster"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 interface DashboardClientProps {
   user: User
@@ -38,7 +44,12 @@ export default function DashboardClient({ user, initialMoodEntries, streakData }
       })),
   )
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isBetaMode, setIsBetaMode] = useState(false)
   const supabase = createClient()
+
+  useEffect(() => {
+    setIsBetaMode(localStorage.getItem('beta-test-mode') === 'true')
+  }, [])
 
   const handleMoodSelection = async (mood: string, note?: string) => {
     if (isSubmitting) return
@@ -211,6 +222,16 @@ export default function DashboardClient({ user, initialMoodEntries, streakData }
               <CardTitle className="text-xl font-medium text-blue-700">Your Streak</CardTitle>
             </CardHeader>
             <CardContent>
+              {isBetaMode && (
+                <div className="bg-yellow-50 border border-yellow-200 text-yellow-700 px-4 py-3 rounded relative mb-4">
+                  <div className="flex items-center gap-3">
+                    <AlertCircle className="h-4 w-4" />
+                    <span className="text-sm">
+                      You are in Beta Test Mode. All your data will be temporary and will be cleared when you leave this session.
+                    </span>
+                  </div>
+                </div>
+              )}
               <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                 <div className="flex items-center gap-3">
                   <div className="bg-blue-100 p-3 rounded-full">

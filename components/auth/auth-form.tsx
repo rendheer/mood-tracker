@@ -14,6 +14,7 @@ import { AlertCircle, Loader2 } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
 export default function AuthForm() {
+  const [isBetaMode, setIsBetaMode] = useState(false)
   const router = useRouter()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -32,6 +33,31 @@ export default function AuthForm() {
         password,
         options: {
           emailRedirectTo: `${window.location.origin}/auth/callback`,
+          email: {
+            from: 'journal@journalmymind.com',
+            subject: 'Welcome to Journal My Mind - Confirm Your Account',
+            html: `
+              <h1>Welcome to Journal My Mind</h1>
+              <p>Thank you for signing up! Please click the link below to confirm your account:</p>
+              <a href="{{url}}" style="display: inline-block; padding: 10px 20px; background-color: #4f46e5; color: white; text-decoration: none; border-radius: 4px;">
+                Confirm Account
+              </a>
+              <p>If you didn't create an account, please ignore this email.</p>
+              <p>Best regards,<br>The Journal My Mind Team</p>
+            `
+          },
+          // Add email confirmation settings
+          emailConfirm: {
+            subject: 'Confirm your Journal My Mind account',
+            html: `
+              <h1>Confirm Your Account</h1>
+              <p>Click the button below to confirm your email address:</p>
+              <a href="{{url}}" style="display: inline-block; padding: 10px 20px; background-color: #4f46e5; color: white; text-decoration: none; border-radius: 4px;">
+                Confirm Email
+              </a>
+              <p>If you didn't request this, please ignore this email.</p>
+            `
+          }
         },
       })
 
@@ -41,7 +67,17 @@ export default function AuthForm() {
       }
 
       // Show success message or redirect
-      setError("Check your email for the confirmation link!")
+      setError(null)
+      // Show success message
+      setError("Registration successful! Please check your email (including spam folder) for the confirmation link. If you don't see it, please check your spam folder.")
+      // Clear form fields
+      setEmail("")
+      setPassword("")
+      
+      // Add a timer to clear the success message
+      setTimeout(() => {
+        setError(null)
+      }, 5000)
     } catch (err) {
       setError("An unexpected error occurred")
       console.error(err)
@@ -81,8 +117,35 @@ export default function AuthForm() {
       <TabsList className="grid w-full grid-cols-2">
         <TabsTrigger value="login">Login</TabsTrigger>
         <TabsTrigger value="register">Register</TabsTrigger>
+        <TabsTrigger value="betatest">Beta Test</TabsTrigger>
+        <TabsTrigger value="login">Login</TabsTrigger>
+        <TabsTrigger value="register">Register</TabsTrigger>
       </TabsList>
 
+      <TabsContent value="betatest">
+        <Card>
+          <CardHeader>
+            <CardTitle>Beta Test Mode</CardTitle>
+            <CardDescription>
+              Welcome to the beta test mode! You can use this mode to test the application without creating an account.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <Button
+                onClick={() => {
+                  // Create a temporary session for beta testing
+                  localStorage.setItem('beta-test-mode', 'true')
+                  window.location.href = '/dashboard'
+                }}
+                className="w-full"
+              >
+                Enter Beta Test Mode
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      </TabsContent>
       <TabsContent value="login">
         <Card>
           <CardHeader>
