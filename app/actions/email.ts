@@ -10,12 +10,15 @@ export async function sendEmail(
   try {
     const supabase = createClient()
     
-    // Send email using Supabase's built-in email functionality
-    const { error } = await supabase.auth.admin.sendEmail({
+    // Send email using Supabase's email service
+    const { error } = await supabase.auth.sendEmail({
       to,
       subject,
       html,
       text,
+      options: {
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
+      }
     })
 
     if (error) throw error
@@ -31,8 +34,14 @@ export async function sendVerificationEmail(email: string) {
   try {
     const supabase = createClient()
     
-    // Send verification email
-    const { error } = await supabase.auth.admin.sendVerificationEmail(email)
+    // Send verification email using Supabase's auth service
+    const { error } = await supabase.auth.signUp({
+      email,
+      password: 'temp_password', // Temporary password for verification
+      options: {
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback`
+      }
+    })
     
     if (error) throw error
     

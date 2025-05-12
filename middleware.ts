@@ -39,6 +39,11 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/login', req.url))
   }
   
+  // Allow access to root route
+  if (req.nextUrl.pathname === '/') {
+    return res
+  }
+  
   return res
 }
 
@@ -49,8 +54,7 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
-     * - public (public files)
      */
-    "/((?!_next/static|_next/image|favicon.ico|public).*)",
+    "/((?!_next/static|_next/image|favicon.ico).*)",
   ],
 }
