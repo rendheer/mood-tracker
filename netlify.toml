@@ -15,7 +15,32 @@
 
 [functions]
   node_bundler = "esbuild"
+  node_version = "18"
+  npm_version = "8"
+  included_files = [
+    "node_modules/**/*",
+    "package.json",
+    "package-lock.json",
+    "*.js",
+    "*.json"
+  ]
 
 [functions.build]
   command = "pnpm install --frozen-lockfile"
   publish = "functions"
+
+[functions.api]
+  handler = "api/handler.js"
+  memory_size = 1024
+  timeout = 10
+  runtime = "nodejs18.x"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/auth/*"
+  to = "/.netlify/functions/auth/:splat"
+  status = 200

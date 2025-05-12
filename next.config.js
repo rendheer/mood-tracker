@@ -5,10 +5,11 @@ const nextConfig = {
   images: {
     domains: ['ishkkozdnhhibcxlnvgc.supabase.co'],
   },
+  serverActions: {
+    allowedOrigins: ['*'],
+  },
   experimental: {
-    serverActions: {
-      allowedOrigins: ['*'],
-    },
+    serverActions: true,
   },
   webpack: (config, { isServer }) => {
     if (!isServer) {
@@ -26,6 +27,14 @@ const nextConfig = {
   },
   distDir: '.next',
   outDir: 'out',
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: '/.netlify/functions/api/:path*',
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig
