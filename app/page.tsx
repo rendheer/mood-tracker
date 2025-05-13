@@ -4,14 +4,10 @@ import { redirect } from "next/navigation"
 import Link from "next/link"
 
 export default async function Home() {
-  const supabase = createClient()
-
-  // Check if user is already logged in
-  const {
-    data: { session },
-  } = await supabase.auth.getSession()
-
-  if (session) {
+  // Check for beta test mode cookie
+  const isBetaMode = typeof window !== 'undefined' && document.cookie.split('; ').some(row => row.startsWith('beta-test-mode=true'))
+  
+  if (isBetaMode) {
     redirect("/dashboard")
   }
 
@@ -25,10 +21,10 @@ export default async function Home() {
 
         <div className="flex flex-wrap justify-center gap-4 mt-8">
           <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
-            <Link href="/login">Get Started</Link>
+            <Link href="/beta">Get Started</Link>
           </Button>
           <Button asChild variant="outline" size="lg" className="border-blue-600 text-blue-600 hover:bg-blue-50">
-            <Link href="/login?tab=register">Create Account</Link>
+            <Link href="/beta">Try Beta Test</Link>
           </Button>
         </div>
 

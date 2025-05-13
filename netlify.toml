@@ -8,17 +8,32 @@
   PNPM_VERSION = "8.10.0"
   PNPM_REGISTRY = "https://registry.npmjs.org"
   PNPM_STORE_DIR = "/opt/buildhome/.pnpm-store"
+  NEXT_USE_NODE_20 = "true"
 
 [context.production.environment]
-  NEXT_PUBLIC_SUPABASE_URL = "https://ishkkozdnhhibcxlnvgc.supabase.co"
-  NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlzaGtrb3pkbmhoaWJjeGxudmdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY4ODA4MTIsImV4cCI6MjA2MjQ1NjgxMn0.FSEXqLrYphZ31IOHDu5xiTb4UhGQipjTE_XjbrfIW1Q"
+  NODE_ENV = "production"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; media-src 'self'; object-src 'none'; frame-src 'self' https:;"
 
 [functions]
   node_bundler = "esbuild"
   included_files = [
     "node_modules/**/*",
     "package.json",
-    "package-lock.json",
+    "pnpm-lock.yaml",
     "*.js",
     "*.json"
   ]

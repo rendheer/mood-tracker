@@ -4,12 +4,8 @@ import type React from "react"
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Label } from "@/components/ui/label"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { AlertCircle, Loader2 } from "lucide-react"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 
@@ -21,9 +17,7 @@ export default function AuthForm() {
 
   // Check if user is in beta test mode
   const isUserInBetaMode = () => {
-    const cookie = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('beta-test-mode='))
+    const cookie = document.cookie.split('; ').find(row => row.startsWith('beta-test-mode='))
     return cookie ? cookie.split('=')[1] === 'true' : false
   }
 
@@ -32,7 +26,10 @@ export default function AuthForm() {
     try {
       // Create a temporary session for beta testing
       document.cookie = 'beta-test-mode=true; path=/; max-age=3600'; // Cookie expires in 1 hour
-      router.push('/dashboard')
+      // Clear any existing session
+      document.cookie = 'supabase.auth.token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC';
+      // Redirect to dashboard
+      window.location.href = '/dashboard'
     } catch (err) {
       setError("An unexpected error occurred")
       console.error(err)

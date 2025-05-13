@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    // This will make sure the environment variables are available at build time
+    NEXT_PUBLIC_BETA_MODE: process.env.NEXT_PUBLIC_BETA_MODE || 'false',
+  },
   images: {
     domains: ['ishkkozdnhhibcxlnvgc.supabase.co'],
   },

@@ -66,6 +66,14 @@ export default function MoodAnalytics({ history }: MoodAnalyticsProps) {
 
   // Filter data based on selected time range
   const filteredHistory = (() => {
+    // For beta test mode, show all data without time restrictions
+    if (typeof window !== 'undefined') {
+      const isBetaMode = document.cookie.split('; ').some(row => row.startsWith('beta-test-mode=true'))
+      if (isBetaMode) {
+        return history
+      }
+    }
+
     const now = new Date()
     const msInDay = 24 * 60 * 60 * 1000
 

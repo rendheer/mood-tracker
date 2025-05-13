@@ -1,9 +1,11 @@
+"use client"
+
 import AuthForm from "@/components/auth/auth-form"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 
-export default async function LoginPage() {
+export default function BetaPage() {
   // Check for beta test mode cookie
   const isBetaMode = typeof window !== 'undefined' && document.cookie.split('; ').some(row => row.startsWith('beta-test-mode=true'))
   
@@ -17,7 +19,7 @@ export default async function LoginPage() {
         <Card className="border-none shadow-lg">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold text-blue-700">Journal My Mind</CardTitle>
-            <CardDescription>Sign in to track your mood and access your history across devices</CardDescription>
+            <CardDescription>Enter beta test mode to explore the application</CardDescription>
           </CardHeader>
           <CardContent>
             <AuthForm />
