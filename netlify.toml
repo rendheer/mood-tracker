@@ -1,14 +1,18 @@
 [build]
   base = "/"
   publish = ".next"
-  command = "pnpm install --frozen-lockfile && pnpm build"
+  command = "pnpm install --no-frozen-lockfile && pnpm build"
 
 [build.environment]
-  NODE_VERSION = "18.18.0"
+  NODE_VERSION = "20.0.0"
+  NPM_FLAGS = "--version"
+  YARN_VERSION = "1.22.0"
   PNPM_VERSION = "8.10.0"
-  PNPM_REGISTRY = "https://registry.npmjs.org"
-  PNPM_STORE_DIR = "/opt/buildhome/.pnpm-store"
-  NEXT_USE_NODE_20 = "true"
+  PNPM_FLAGS = "--version"
+  NPM_FLAGS = "--version"
+  NEXT_TELEMETRY_DISABLED = "1"
+  NEXT_PUBLIC_BASE_PATH = ""
+  NODE_OPTIONS = "--max-old-space-size=4096"
 
 [context.production.environment]
   NODE_ENV = "production"
