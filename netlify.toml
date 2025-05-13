@@ -7,10 +7,14 @@
   NODE_VERSION = "20.0.0"
   YARN_VERSION = "1.22.0"
   PNPM_VERSION = "8.10.0"
-  PNPM_FLAGS = "--version"
   NEXT_TELEMETRY_DISABLED = "1"
   NEXT_PUBLIC_BASE_PATH = ""
   NODE_OPTIONS = "--max-old-space-size=4096"
+  
+[build]
+  command = "pnpm install --no-frozen-lockfile"
+  publish = ".next"
+  functions = ".netlify/functions"
 
 [context.production.environment]
   NODE_ENV = "production"
