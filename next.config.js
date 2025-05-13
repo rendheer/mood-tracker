@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const path = require('path');
+
 const nextConfig = {
   // Ensure environment variables are available at build time
   env: {
@@ -20,6 +22,13 @@ const nextConfig = {
         tls: false,
       };
     }
+    
+    // Configure path aliases
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, './'),
+    };
+    
     return config;
   },
   
